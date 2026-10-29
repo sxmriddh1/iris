@@ -1,0 +1,25 @@
+# UNTESTED in the build sandbox (no Docker available): verify with `docker compose up --build`.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: iris
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: iris
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iris"]
+      interval: 5s
+      retries: 10
+  api:
+    build: .
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      DATABASE_URL: postgresql+psycopg://iris:${POSTGRES_PASSWORD}@db:5432/iris
+      IRIS_READ_KEYS: ${IRIS_READ_KEYS:?set in .env}
+      IRIS_INGEST_KEYS: ${IRIS_INGEST_KEYS:?set in .env}
+      IRIS_ADMIN_KEYS: ${IRIS_ADMIN_KEYS:?set in .env}
+    ports: ["8000:8000"]
+volumes:
+  pgdata:

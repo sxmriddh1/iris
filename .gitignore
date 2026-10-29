@@ -1,0 +1,32 @@
+# --- Secrets (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Local databases and Scout's memory ---
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Node (for iris-guardian later) ---
+node_modules/
+*.vsix
+
+# --- Editors and OS ---
+.vscode/
+.idea/
+.DS_Store
