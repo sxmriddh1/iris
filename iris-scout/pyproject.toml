@@ -5,9 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "iris-scout"
 version = "0.1.0"
-description = "Project Iris Phase 1: discover and classify AI-hallucinated package names"
+description = "proactive scout engine first release"
 requires-python = ">=3.10"
-dependencies = []          # stdlib only on purpose: nothing to supply-chain attack
+dependencies = []          
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
