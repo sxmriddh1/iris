@@ -20,23 +20,23 @@ a developer or AI assistant provided with LLM-generated code that contains hallu
 ## frameworks:
 
 frameworks are bibles in cybersecurity\
-**iris can be mapped with [mitre atlas](https://atlas.mitre.org/), [owasp top 10 LLM](https://genai.owasp.org/llm-top-10/), [mitre att&ck](https://attack.mitre.org/), [NIST cybersecurity frameworks](https://www.nist.gov/cyberframework)**\
+**iris can be mapped with [mitre atlas](https://atlas.mitre.org/), [owasp top 10 LLM](https://genai.owasp.org/llm-top-10/), [mitre att&ck](https://attack.mitre.org/), [NIST cybersecurity frameworks](https://www.nist.gov/cyberframework)**
 
 
 1)  **[MITRE ATLAS (Adversarial Threat Landscape for AI Systems)](https://atlas.mitre.org):**\
    an industry framework for tactics and techniques used by attackers against AI systems, ATLAS recognises [publishing hallucinated entities (ID: AML.T0060)](https://atlas.mitre.org/techniques/AML.T0060) as one of its prominent techniques under the [resource development (ID: AML.TA0003)](https://atlas.mitre.org/tactics/AML.TA0003) objective.
 
 &emsp;&emsp;**<ins>tactics:</ins>**\
-   &emsp;&emsp;&emsp;a) [Resource Development (AML.TA0003)](https://atlas.mitre.org/tactics/AML.TA0003): attacker stages the malicious package\
-   &emsp;&emsp;&emsp;b) [Discovery (AML.TA0008)](https://atlas.mitre.org/tactics/AML.TA0008): attacker finds recurring hallucinations
+   &emsp;&emsp;&emsp;a) Resource Development [(AML.TA0003)](https://atlas.mitre.org/tactics/AML.TA0003): attacker stages the malicious package\
+   &emsp;&emsp;&emsp;b) Discovery [(AML.TA0008)](https://atlas.mitre.org/tactics/AML.TA0008): attacker finds recurring hallucinations
 
    &emsp;&emsp;**<ins>techniques:</ins>**\
-   &emsp;&emsp;&emsp;a) [Publishing Hallucinated Entities (ID: AML.T0060)](https://atlas.mitre.org/techniques/AML.T0060): attacker registers the hallucinated name\
-   &emsp;&emsp;&emsp;b) [Discover LLM Hallucinations (AML.T0062)](https://atlas.mitre.org/techniques/AML.T0062): attacker finds which names models invent\
-   &emsp;&emsp;&emsp;c) [AI Model Inference API Access (AML.T0040)](https://atlas.mitre.org/techniques/AML.T0040): attacker queries the model at scale
+   &emsp;&emsp;&emsp;a) Publishing Hallucinated Entities [(AML.T0060)](https://atlas.mitre.org/techniques/AML.T0060): attacker registers the hallucinated name\
+   &emsp;&emsp;&emsp;b) Discover LLM Hallucinations [(AML.T0062)](https://atlas.mitre.org/techniques/AML.T0062): attacker finds which names models invent\
+   &emsp;&emsp;&emsp;c) AI Model Inference API Access [(AML.T0040)](https://atlas.mitre.org/techniques/AML.T0040): attacker queries the model at scale
 
 &emsp;&emsp;**<ins>case studies:</ins>**\
-&emsp;&emsp;&emsp;[ChatGPT Package Hallucination (AML.CS0022)](https://atlas.mitre.org/studies/AML.CS0022): Researchers prompted ChatGPT for package suggestions and identified the non-existent ones. They then uploaded an empty package to PyPI to track downloads.
+&emsp;&emsp;&emsp;ChatGPT Package Hallucination [(AML.CS0022)](https://atlas.mitre.org/studies/AML.CS0022): Researchers prompted ChatGPT for package suggestions and identified the non-existent ones. They then uploaded an empty package to PyPI to track downloads.
 
 2) **[OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/):**\
    open-source, community-voted list of the top 10 most critical security risks in Large Language Models (LLMs) and related applications.
@@ -49,21 +49,21 @@ frameworks are bibles in cybersecurity\
 knowledge base of adversary tactics and techniques based on real-world observations. ATT&CK does not model hallucination itself; it covers what happens after a malicious package reaches the developer.
 
 &emsp;&emsp;**<ins>tactics:</ins>**\
-   &emsp;&emsp;&emsp;a) [Initial Access (TA0001)](https://attack.mitre.org/tactics/TA0001/): how the malicious package gets in\
-   &emsp;&emsp;&emsp;b) [Execution (TA0002)](https://attack.mitre.org/tactics/TA0002/): what runs after install
+   &emsp;&emsp;&emsp;a) Initial Access [(TA0001)](https://attack.mitre.org/tactics/TA0001/): how the malicious package gets in\
+   &emsp;&emsp;&emsp;b) Execution [(TA0002)](https://attack.mitre.org/tactics/TA0002/): what runs after install
 
 &emsp;&emsp;**<ins>techniques:</ins>**\
-   &emsp;&emsp;&emsp;a) [Supply Chain Compromise (T1195)](https://attack.mitre.org/techniques/T1195/): tampering before delivery\
-   &emsp;&emsp;&emsp;b) [Compromise Software Dependencies and Development Tools (T1195.001)](https://attack.mitre.org/techniques/T1195/001/): malicious dependency or dev tool\
-   &emsp;&emsp;&emsp;c) [Command and Scripting Interpreter (T1059)](https://attack.mitre.org/techniques/T1059/): install hooks running shell or script code
+   &emsp;&emsp;&emsp;a) Supply Chain Compromise [(T1195)](https://attack.mitre.org/techniques/T1195/): tampering before delivery\
+   &emsp;&emsp;&emsp;b) Compromise Software Dependencies and Development Tools [(T1195.001)](https://attack.mitre.org/techniques/T1195/001/): malicious dependency or dev tool\
+   &emsp;&emsp;&emsp;c) Command and Scripting Interpreter [(T1059)](https://attack.mitre.org/techniques/T1059/): install hooks running shell or script code
 
 &emsp;&emsp;**<ins>case studies:</ins>**\
 &emsp;&emsp;ATT&CK has no case studies; it lists campaigns and procedure examples instead. One example on the [T1195.001](https://attack.mitre.org/techniques/T1195/001/) page is [TeamPCP](https://attack.mitre.org/groups/G1056):
 **coordinated supply chain attacks on the npm, VS Code, Docker and PyPI ecosystems.**
 
 &emsp;&emsp;**<ins>mitigations and detection:</ins>** (listed on the [T1195.001](https://attack.mitre.org/techniques/T1195/001/) page):\
-   &emsp;&emsp;&emsp;a) [Application Developer Guidance (M1013)](https://attack.mitre.org/mitigations/M1013): lock dependencies to specific versions\
-   &emsp;&emsp;&emsp;b) [Limit Software Installation (M1033)](https://attack.mitre.org/mitigations/M1033): pull from internal repositories of verified, approved packages\
+   &emsp;&emsp;&emsp;a) Application Developer Guidance [(M1013)](https://attack.mitre.org/mitigations/M1013): lock dependencies to specific versions\
+   &emsp;&emsp;&emsp;b) Limit Software Installation [(M1033)](https://attack.mitre.org/mitigations/M1033): pull from internal repositories of verified, approved packages\
    &emsp;&emsp;&emsp;c) [DET0009 detection strategy](https://attack.mitre.org/detectionstrategies/DET0009): dependency manager activity, then install, first run and outbound traffic
 
 ## visit:
