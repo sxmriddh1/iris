@@ -66,6 +66,17 @@ knowledge base of adversary tactics and techniques based on real-world observati
    &emsp;&emsp;&emsp;b) Limit Software Installation [(M1033)](https://attack.mitre.org/mitigations/M1033): pull from internal repositories of verified, approved packages\
    &emsp;&emsp;&emsp;c) [DET0009 detection strategy](https://attack.mitre.org/detectionstrategies/DET0009): dependency manager activity, then install, first run and outbound traffic
 
+4) **[NIST Cybersecurity Framework (CSF) 2.0](https://www.nist.gov/cyberframework):**\
+guidance for managing cybersecurity risk, organized into functions, categories and subcategories of outcomes ([NIST CSWP 29](https://csrc.nist.gov/pubs/cswp/29/the-nist-cybersecurity-framework-csf-20/final)). it is outcome-based, so there are no tactics or case studies; iris maps to the identify and detect functions.
+
+&emsp;&emsp;**<ins>identify (ID):</ins>**\
+   &emsp;&emsp;&emsp;a) [Risk Assessment (ID.RA-09)](https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/CSF_2_0_0/home): check a package's authenticity and integrity before install\
+   &emsp;&emsp;&emsp;b) [Risk Assessment (ID.RA-02)](https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/CSF_2_0_0/home): receive threat intelligence from sharing sources
+
+&emsp;&emsp;**<ins>detect (DE):</ins>**\
+   &emsp;&emsp;&emsp;a) [Adverse Event Analysis (DE.AE-07)](https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/CSF_2_0_0/home): feed threat intelligence into event analysis\
+   &emsp;&emsp;&emsp;b) [Continuous Monitoring (DE.CM-09)](https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/CSF_2_0_0/home): monitor software and runtime environments for adverse events
+
 ## visit:
 
 
@@ -136,7 +147,7 @@ knowledge base of adversary tactics and techniques based on real-world observati
 
 ## license:
  
-MIT — see `LICENSE`.
+MIT — see [`LICENSE`](https://github.com/sxmriddh1/iris/blob/main/LICENSE).
  
 ## contributors and project timeline:
 created by: samriddhi guha (samriddhiguha777@gmail.com) 
