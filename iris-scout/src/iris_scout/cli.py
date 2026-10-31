@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 
@@ -17,7 +18,7 @@ import os
 from .export import build_payload, write_csv, write_json
 from .push import push_findings
 from .ledger import Ledger
-from .llm import AnthropicClient, collect, read_jsonl, write_jsonl
+from .llm import FatalLLMError, GroqClient, collect, read_jsonl
 from .models import Ecosystem, Finding, LLMResponse
 from .pipeline import analyze
 from .prompts import build_prompts
@@ -47,12 +48,40 @@ def cmd_prompts(a) -> int:
 
 
 def cmd_collect(a) -> int:
-    client = AnthropicClient(a.model, temperature=a.temperature)
+    if os.path.exists(a.out) and not a.overwrite:
+        print(f"{a.out} already exists. Raw responses are your evidence, so Scout will not overwrite them.\n"
+              f"Choose another --out, or add --overwrite if you really mean it.", file=sys.stderr)
+        return 2
     prompts = build_prompts(tuple(a.ecosystem))[: a.limit or None]
-    log.info("asking %s %d prompts x %d repeats", a.model, len(prompts), a.repeats)
-    write_jsonl(collect(client, prompts, a.repeats), a.out)
-    print(f"Saved responses to {a.out}")
-    return 0
+    if not prompts:
+        print("No prompts selected.", file=sys.stderr)
+        return 2
+    try:
+        client = GroqClient(a.model, max_tokens=a.max_tokens, temperature=a.temperature)
+    except RuntimeError as e:
+        print(f"Cannot start: {e}", file=sys.stderr)
+        return 2
+    total = len(prompts) * a.repeats
+    print(f"Asking {a.model}: {len(prompts)} prompts x {a.repeats} repeat(s) = {total} calls", file=sys.stderr)
+    saved: list = []
+    skipped: list = []
+    with open(a.out, "w", encoding="utf-8") as f:
+        def sink(r):
+            f.write(json.dumps(r.__dict__, ensure_ascii=False) + "\n")
+            f.flush()                       # each answer hits the disk immediately
+            saved.append(r)
+        def on_error(pid, msg):
+            skipped.append(pid)
+            print(f"  skipped {pid}: {msg}", file=sys.stderr)
+        def on_progress(n, tot, pid, chars):
+            print(f"  [{n}/{tot}] {pid} ok ({chars} chars)", file=sys.stderr)
+        try:
+            collect(client, prompts, a.repeats, sink=sink, on_error=on_error, on_progress=on_progress, delay=a.delay)
+        except FatalLLMError as e:
+            print(f"Stopped: {e}\n{len(saved)} answer(s) were saved to {a.out} before the stop.", file=sys.stderr)
+            return 1
+    print(f"Saved {len(saved)} answer(s) to {a.out}; skipped {len(skipped)}.")
+    return 0 if saved else 1
 
 
 def cmd_analyze(a) -> int:
@@ -108,7 +137,11 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("collect"); p.add_argument("--model", required=True)
     p.add_argument("--ecosystem", nargs="+", default=["pypi", "npm"], choices=["pypi", "npm"])
     p.add_argument("--repeats", type=int, default=1); p.add_argument("--limit", type=int, default=0)
-    p.add_argument("--temperature", type=float, default=1.0); p.add_argument("--out", required=True); p.set_defaults(fn=cmd_collect)
+    p.add_argument("--temperature", type=float, default=1.0)
+    p.add_argument("--max-tokens", type=int, default=1500, help="reasoning models spend tokens thinking; raise if answers come back empty")
+    p.add_argument("--delay", type=float, default=0.0, help="seconds to wait between calls (free tiers rate-limit hard)")
+    p.add_argument("--overwrite", action="store_true", help="replace an existing --out file")
+    p.add_argument("--out", required=True); p.set_defaults(fn=cmd_collect)
 
     p = sub.add_parser("analyze"); p.add_argument("responses")
     p.add_argument("--json"); p.add_argument("--csv"); p.add_argument("--ledger", default="iris_ledger.sqlite")
