@@ -1,5 +1,5 @@
 # iris
-***scout-and-defend tool that detects LLM software dependency hallucinations and flags them + vs code extension that checks dependencies against official registries as you code***
+***scout-and-defend tool that detects LLM software dependency hallucinations and flags them***
 
 ## problem domain(s):
 software supply chain security, LLM security, AI security, application security, DevSecOps, operational security
