@@ -11,7 +11,7 @@ the growing dependence on these very LLMs pose a threat - LLMs are found to hall
 
 a threat actor may prompt several LLMs to detect what dependency names, in frequency and unison, are being hallucinated and simply register those exact names on public registries like PyPI or npm, cleverly wrapping said harmless and non-existent packages with malware. 
 
-a developer or AI assistant provided with LLM-generated code that contains hallucinated package names may install the listed dependencies without suspicion or review, and the errorless installation of the *malware* may now act as a phantom on the developer’s machine or command line, silently stealing secrets, API keys, hardcoded credentials, pivoting into pipelines or disrupting operations (worst case).
+a developer or AI assistant provided with LLM-generated code containing hallucinated package names may install the listed dependencies without suspicion or review, and the errorless installation of the *malware* may now act as a phantom on the developer’s machine or command line, silently stealing secrets, API keys, hardcoded credentials, pivoting into pipelines or potentially even disrupting operations (worst case).
 
 
  
